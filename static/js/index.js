@@ -13,10 +13,15 @@ var ssrResultsspecialSkin=''
 var resultspecialSkin=''
 var temp=''
 var glupss=''
+var rinfo=new Array()
+var srinfo=new Array()
+var ssrinfo=new Array()
+var spinfo=new Array()
 $(document).ready(function(){
   $.ajax({
     type: "get",
     url: "/chouka",
+    async: false,
     dataType:"json",
     success: function (data) {
       flagspecialSkin=data.flagspecialSkin
@@ -28,7 +33,9 @@ $(document).ready(function(){
       }else{
         flagupspecial=true
       }
-      flagupwsl=data.flagupwsl
+      flagpiece=data.flagpiece
+      flagupwsl=data.flagwsl
+      console.log(flagupwsl)
       rmc=data.rmc
       console.log(rmc)
       specialSkinmc=data.specialSkinmc
@@ -40,16 +47,33 @@ $(document).ready(function(){
       ssrmc=data.ssrmc
       console.log(ssrmc)
     },
-    error: function () {
-      $.alert('请求失败！'+err.status + '(' + err.statusText + ')') 
+    error: function (err) {
+      $.alert('请求式神信息失败！'+err.status + '(' + err.statusText + ')') 
     }
   });
   if($('#login').text()=='登陆'&&flagupwsl){
-    $.confirm("您还未登陆，需要登陆使用未收录功能！如不登陆录入式神信息将无法使用该功能",function(e){
+    $.confirm("您还未登陆，需要登陆使用未收录功能！如不登陆录入式神信息将无法使用未收录式神功能",function(e){
       e||window.location.replace("/login")
     }).cancel('前往').ok('取消')
-  }else if(flagupwsl==true){
-
+  }else if(flagupwsl){
+    console.log("12321312312")
+    $.ajax({
+      type: "post",
+	    async: false,
+      url: "/accountinfo",
+      dataType:"json",
+      success: function (data) {
+        const obj = JSON.parse(data);
+        console.log(obj)
+        ssrinfo=obj.ssr
+        console.log(ssrinfo)
+        spinfo=obj.sp
+        console.log(spinfo)
+      },
+      error: function () {
+        $.alert('请求未收录相关信息失败！'+err.status + '(' + err.statusText + ')') 
+      }
+    });
   }
     $('#btn1').on('click',function(){
       $('#spResults').text("")
@@ -59,6 +83,9 @@ $(document).ready(function(){
       $('#ssupFrequency').text("概率up次数：0/3")
       $.load()
       glupss=$('input[name="upss"]:checked').val()
+      var piecetemp=0
+      var baodi=0
+      var piecegl=0
       var gl=0
       var result=new Array()
       var spResults=new Array()
@@ -74,11 +101,22 @@ $(document).ready(function(){
       var flagqtj=$("#flagqtj").is(":checked")
       for (var i=1;i<=zcs;i++){
         var x=Math.random();//总概率生成
-        var cz=probabilityGrow(i,flagqtj)
+        if(flagpiece){
+          piecegl=Math.random()
+          baodi++
+          if(piecegl<=0.01){
+            piecetemp++
+            dqssupFrequency++
+            baodi=0
+          }
+        }
+        if(flagpiece==false){
+          var cz=probabilityGrow(i,flagqtj)
+        }
         if (ssupFrequency==3&&flag25){//三次up用尽
           flag25=false
         };
-        if (i==600&&flagqtj&&flagspecialup==false&&flagupspecial==false){//600保底判定
+        if (i==600&&flagqtj&&flagspecialup==false&&flagupspecial==false&&flagpiece==false){//600保底判定
           dqssupFrequency++
           flagspecialup=true
           flagqtj=true
@@ -94,57 +132,74 @@ $(document).ready(function(){
           if (x<=(0.0125*2.5)){//SSR/SP式神
             if (flagupwsl){
               flagupwsl=false
-            }
-            ssupFrequency++
-            var ssupgl=Math.random()
-            if (ssupgl<=cz&&flagupspecial==false){
-              flagspecialup=true
-              dqssupFrequency++
-              if (flagupsp==true){
-                spFrequency++
-                spResults.push(glupss+'['+String(i)+']')
-              }else if(flagupssr==true){
-                ssrFrequency++
-                ssrResults.push(glupss+'['+String(i)+']')
+              var temp1=getArrDifference(ssrinfo,ssrmc)
+              var temp2=getArrDifference(spinfo,spmc)
+              temp1.concat(temp2)
+              parseInt(Math.random()*(temp1.length),10);
+              gl=Math.floor(Math.random()*(temp1.length));
+              result.push('恭喜获得未收录式神，是'+temp1[gl])
+              for (const value of ssrmc) {
+                if (value==temp1[gl]){
+                  ssrResults.push(temp1[gl]+'['+String(i)+']'+'(未收录)')
+                }
               }
-              result.push('恭喜抽出当期概率up式神'+glupss)
+              for (const value of spmc) {
+                if (value==temp1[gl]){
+                  spResults.push(temp1[gl]+'['+String(i)+']'+'(未收录)')
+                }
+              }
             }else{
-              cgl=Math.random()
-              if (cgl<=0.2){
-                parseInt(Math.random()*(spmc.length),10);
-                gl=Math.floor(Math.random()*(spmc.length));
-                while (spmc[gl]==glupss&&flagupsp==true){
+              ssupFrequency++
+              var ssupgl=Math.random()
+              if (ssupgl<=cz&&flagupspecial==false&&flagpiece==false){
+                flagspecialup=true
+                dqssupFrequency++
+                if (flagupsp==true){
+                  spFrequency++
+                  spResults.push(glupss+'['+String(i)+']')
+                }else if(flagupssr==true){
+                  ssrFrequency++
+                  ssrResults.push(glupss+'['+String(i)+']')
+                }
+                result.push('恭喜抽出当期概率up式神'+glupss)
+              }else{
+                cgl=Math.random()
+                if (cgl<=0.2){
                   parseInt(Math.random()*(spmc.length),10);
                   gl=Math.floor(Math.random()*(spmc.length));
+                  while (spmc[gl]==glupss&&flagupsp==true){
+                    parseInt(Math.random()*(spmc.length),10);
+                    gl=Math.floor(Math.random()*(spmc.length));
+                  }
+                  spFrequency++
+                  spResults.push(spmc[gl]+'['+String(i)+']')
+                  result.push('恭喜抽出SP式神，是'+spmc[gl])
+                  if (flagupspecial&&special(cz)&&flagpiece==false){
+                    result.push('恭喜抽出当期概率up物品'+glupss)
+                    spResults.push(glupss+'['+String(i)+']')
+                    dqssupFrequency++
+                    flagspecialup=true
+                    flagqtj=true
+                  }
                 }
-                spFrequency++
-                spResults.push(spmc[gl]+'['+String(i)+']')
-                result.push('恭喜抽出SP式神，是'+spmc[gl])
-                if (flagupspecial&&special(cz)){
-                  result.push('恭喜抽出当期概率up物品'+glupss)
-                  spResults.push(glupss+'['+String(i)+']')
-                  dqssupFrequency++
-                  flagspecialup=true
-                  flagqtj=true
-                }
-              }
-              if (cgl>0.2){
-                parseInt(Math.random()*(ssrmc.length),10);
-                gl=Math.floor(Math.random()*(ssrmc.length));
-                while (ssrmc[gl]==glupss&&flagupssr==true){
+                if (cgl>0.2){
                   parseInt(Math.random()*(ssrmc.length),10);
                   gl=Math.floor(Math.random()*(ssrmc.length));
-                }
-                ssrFrequency++
-                specialSkin(gl,i)
-                result.push(resultspecialSkin)
-                ssrResults.push(ssrResultsspecialSkin)
-                if (flagupspecial&&special(cz)){
-                  result.push('恭喜抽出当期概率up物品'+glupss)
-                  ssrResults.push(glupss+'['+String(i)+']')
-                  dqssupFrequency++
-                  flagspecialup=true
-                  flagqtj=true
+                  while (ssrmc[gl]==glupss&&flagupssr==true){
+                    parseInt(Math.random()*(ssrmc.length),10);
+                    gl=Math.floor(Math.random()*(ssrmc.length));
+                  }
+                  ssrFrequency++
+                  specialSkin(gl,i)
+                  result.push(resultspecialSkin)
+                  ssrResults.push(ssrResultsspecialSkin)
+                  if (flagupspecial&&special(cz)&&flagpiece==false){
+                    result.push('恭喜抽出当期概率up物品'+glupss)
+                    ssrResults.push(glupss+'['+String(i)+']')
+                    dqssupFrequency++
+                    flagspecialup=true
+                    flagqtj=true
+                  }
                 }
               }
             }
@@ -162,7 +217,7 @@ $(document).ready(function(){
           if(flagspecialup==false){//只有式神定向up
             if(x<=0.0125){
               ssupgl=Math.random()
-              if(ssupgl<=cz&&flagupspecial==false){//出了当期概率up式神
+              if(ssupgl<=cz&&flagupspecial==false&&flagpiece==false){//出了当期概率up式神
                 flagspecialup=true
                 dqssupFrequency++
                 if(flagupsp==true){
@@ -185,7 +240,7 @@ $(document).ready(function(){
                   }
                   spResults.push(spmc[gl]+'['+String(i)+']')
                   result.push('恭喜抽出SP式神，是'+spmc[gl])
-                  if (flagupspecial&&special(cz)){
+                  if (flagupspecial&&special(cz)&&flagpiece==false){
                     result.push('恭喜抽出当期概率up物品'+glupss)
                     spResults.push(glupss+'['+String(i)+']')
                     dqssupFrequency++
@@ -202,7 +257,7 @@ $(document).ready(function(){
                   }
                   ssrResults.push(ssrmc[gl]+'['+String(i)+']')
                   result.push('恭喜抽出SSR式神，是'+ssrmc[gl])
-                  if (flagupspecial&&special(cz)){
+                  if (flagupspecial&&special(cz)&&flagpiece==false){
                     result.push('恭喜抽出当期概率up物品'+glupss)
                     ssrResults.push(glupss+'['+String(i)+']')
                     dqssupFrequency++
@@ -288,16 +343,28 @@ $(document).ready(function(){
             result.push('恭喜抽出R式神，是'+rmc[gl])
           }
         }
-        if(i==600&&flagqtj&&flagspecialup==false&&flagupspecial){
+        if(i==600&&flagqtj&&flagspecialup==false&&flagupspecial&&flagpiece==false){
           result.push('恭喜获得当期概率up物品'+glupss)
           flagspecialup=true
           flagqtj=true
           dqssupFrequency++
           spResults.push(glupss+'['+String(i)+']')
         }
+        if(baodi==40){
+          piecetemp++
+          dqssupFrequency++
+          flagbaodi=false
+        }
         if(i%10==0){
+          if(flagpiece){
+            result.push("本次十连获得"+glupss+"的个数是："+piecetemp+"个")
+            piecetemp=0
+          }
           result.push("—————————————————————————————————————")
         }
+      }
+      if(flagpiece&&zcs%10!=0){
+        result.push("本次获得"+glupss+"的个数是："+piecetemp+"个")
       }
       for (const value of spResults) {
         $('#spResults').append(value+"<br>")
@@ -422,6 +489,11 @@ function specialSkinProbability(){//sp皮肤概率输出
   }else{
     return false
   }
+}
+function getArrDifference(arr1, arr2) {
+  return arr1.concat(arr2).filter(function(v, i, arr) {
+      return arr.indexOf(v) === arr.lastIndexOf(v);
+  });
 }
 function special(cz){//特殊物品获得输出
   var random=Math.random()

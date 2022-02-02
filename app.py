@@ -31,7 +31,7 @@ specialname=['桔梗碎片','犬夜叉碎片','杀生丸碎片']
 specialSkinmc=[]
 flagspecialSkin=[]
 flagwsl=False
-flagpiece=False
+flagpiece=True
 activityname='寒祭灼魂，心火永明'
 app = Flask(__name__, static_folder='static') 
 #endregion
@@ -102,10 +102,11 @@ def DrawCardData():#抽卡数据获取
     flagupssr=False
     flagupsp=False
     flagupspecial=False
+    flagpiece=False
     for name in specialname:
         if name=='神劵':
             flagupspecial=True
-        elif re.search('碎片', name).span()!=None:
+        elif re.search('印花', name)!=None:
             flagpiece=True
         else:
             for name1 in ssrmc:
@@ -115,7 +116,6 @@ def DrawCardData():#抽卡数据获取
                     flagupsp=True
     if flagupssr==True or flagpiece==True or flagupspecial==True:
         flagupsp=False
-    #endregion
     data={
     'flagpiece':flagpiece,
     'flagwsl':flagwsl,
