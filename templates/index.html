@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="这是一个阴阳师工具小站-提供抽卡模拟器，活动商店查看等功能。">
+<meta name="keywords" content="阴阳师,抽卡模拟器,梦雨,Dream_Rain,DreamRain,活动商店统计,活动商店查看,阴阳师抽卡模拟器,对弈竞猜,阴阳师对弈竞猜">
+<title>梦雨的后花园</title>
+<!--网页标题左侧显示-->
+<link rel="icon" href="static/images/yjs.ico" type="image/x-icon">
+<!--收藏夹显示图标-->
+<link rel="shortcut icon" href="static/images/yjs.ico" type="image/x-icon">
+<link href="static/css/singlePageTemplate.css" rel="stylesheet" type="text/css">
+<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
+<script>var __adobewebfontsappname__="dreamweaver"</script>
+<script src="static/js/source-sans-pro_n2_default.js" type="text/javascript"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="static/js/html5shiv.min.js"></script>
+      <script src="static/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body style="width:90%; margin:0 auto;" οnlοad="time()">
+<!-- Main Container -->
+<div class="container"> 
+  <!-- Navigation -->
+  <header> <a href="">
+    <h4 class="logo">梦雨的后花园</h4>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#hero">主页</a></li>
+		    <li><a href="#ckmnq">抽卡模拟器</a></li>
+        <li><a href="#shop">活动商店统计</a></li>
+		    <li><a href="#dyjc">对弈竞猜模拟</a></li>
+        <li><a href="#about">关于</a></li>
+        <li><a id='login' href="{{ lj }}">{{ dl }}</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+		<style>
+			section {background-image:url("static/images/hyj.jpg");background-repeat: no-repeat;background-position: center;}
+		</style>
+  <div class="title">
+    <h2 align="center"><font size="6" color="white">欢迎来到梦雨的后花园</font></h2>
+    <p align="center"><font size="5" color="white">感谢使用梦雨开发的各种小工具</font></p>
+  </div>
+  </section>
+  <!-- ckmnq Section -->
+<div>
+  <a name="ckmnq"></a>
+  <hr />
+  <p>
+    &nbsp;
+    &nbsp;
+  </p>
+  <h1>抽卡模拟器</h1>
+  <h2>文字版：</h2>
+	<table width="100%" height="300" border="1" align="center" id='bg'>
+  <tbody>
+    <tr>
+      <td width="250" height="56" align="center" name="glupss"><p>当前活动：</p><p>{{activityname}}抽卡活动</p></td>
+      <td width="648" align="center"><input type="checkbox" id='flag25' checked>是否有2.5倍概率up</td>
+      <td width="242" align="center"><input type="checkbox" id='flagqtj' checked>是否为SSR全集赏玩家</td>
+    </tr>
+    <tr>
+      <td height="283" align="center"><font size="+3"><div id='ssupFrequency'>概率up次数：0/3</div></font>
+      <div style="height:656px;width:100%;overflow:auto;background:#EEEEEE;">
+        <p>抽出的SP及出现票数：</p>
+        <div id='spResults'></div>
+        <p>抽出的SSR及出现票数：</p>
+        <div id='ssrResults'></div>
+        <p>抽出的SR及出现票数：</p>
+        <div id='srResults'></div>
+      </div>
+      </td>
+	  <td align="center" size='4'>
+      <div style="height:656px;width:100%;overflow:auto;background:#EEEEEE;"><div id='result'></div></div>
+    </td>
+      <td width="12" align="center">
+      <p>请选择概率up式神（物品）</p>
+      {% for item in specialname %}
+        <div width="242" align="center"><input type="radio" name='upss' id="up1" value="{{item}}" checked>{{item}}</div>
+      {% endfor %}
+      <p>请输入要抽取的票数:</p>
+      <p><input type="number" id="zcs" placeholder="请输入要抽取的票数"></p>
+	    <p style="width:30%"><input type="button" class="button" value="抽取" id="btn1"></p>
+    </td>
+    </tr>
+    <tr>
+      <td height="52" align="center" id='spFrequency'>本次抽卡获得SP个数：0</td>
+      <td align="center" id='ssrFrequency'>本次抽卡获得SSR个数：0</td>
+      <td align="center" id='dqssupFrequency'>本次抽卡获得当期概率up式神（物品）的次数为：0</td>
+    </tr>
+  </tbody>
+</table>
+<h2>还原版：仍在开发中，准备基于unity……</h2>
+</div>
+  <!-- shop Section -->
+<div>
+  <a name="shop"></a>
+  <hr />
+  <p>
+    &nbsp;
+    &nbsp;
+  </p>
+  <h1>当期商店查看</h1>
+  <h2>由于学业关系，更新可能不及时或者直接不更新</h2>
+  <h2>如果excel表格一片空白请尝试移动</h2> 
+  <h2>如果无法使用请下载使用</h2>
+  <h2><a class="tiaozhuan" href="https://dl.ckmnq.cn">点击前往下载页</a></h2>
+  <h2>请注意时效！</h2>
+  <h2>时间：<span id="time"></span></h2>
+  <div class="excel">
+    <button class="button" id="button1">点我展开/隐藏在线表格</button>
+  </div>
+  <div id="excel" style="height:800px;width:100%;overflow:auto;background:#EEEEEE;display:none;">
+    <iframe src='https://view.officeapps.live.com/op/view.aspx?src=https://ckmnq.cn/static/excel/搬空商店统计（因幡辉夜姬活动）.xlsx' width='100%' height='100%' frameborder='1'>
+			</iframe>
+  </div>
+</div>
+<!-- dyjcmn Section -->
+<div>
+  <a name="dyjc"></a>
+  <hr />
+  <p>
+    &nbsp;
+    &nbsp;
+  </p>
+  <h1>对弈竞猜模拟</h1>
+  <h1 align="center">对阴阳师的自动战斗进行还原</h1>
+  <h1 align="center">提供较为精确的对弈竞猜预测功能</h1>
+  <h1 align="center">还在开发中……</h1>
+</div>
+  <!-- About Section -->
+<div>
+  <a name="about"></a>
+  <hr />
+  <p>
+    &nbsp;
+    &nbsp;
+  </p>
+  <h1>关于</h1>
+  <p>欢迎你来到这里，使用这个由高三低技术力文科生做的网页</p>
+  <p>虽说是文科生，但是语文水平也不是很高，还请多多海涵</p>
+  <p>既然都翻到这里了，我还是希望你可以看完这一段<s>(虽然说现在东西不多翻到这里还是挺容易的)</s></p>
+  <p>哦对了，首页的那张图片来自pixiv，id：91555973,默认头像的id是94130740</p>
+  <p>最开始新建文件夹的时间是2021年的5月9日，正好快帝释天抽卡了，就想着做出来给群友玩玩</p>
+  <p>一开始用的是vb6.0(因为那个时候我只会这个)，编译出来的软件在群里流通，那个时候玩的还挺开心的</p>
+  <p>到后来在群友们的帮助下慢慢的摸清楚了一些机制，更贴近原版了</p>
+  <p>到今天凭借着初中的一些HTML知识和网上的教程写出了这个网站</p>
+  <p>由于技术拙劣，浏览网页的时候一定会有一堆的bug，还希望你可以给我反馈一下</p>
+  <p>手机端的浏览体验不如电脑端，最好使用Chrome浏览本网站</p>
+  <p>有bug请发送邮件到dream__rain@163.com，谢谢你们~</p>
+  <p>希望你在这里玩得开心~</p>
+  <p>写于2021/8/25 11:30</p>
+</div>
+  <!-- Donate Section -->
+<div>
+  <hr />
+  <p>
+    &nbsp;
+    &nbsp;
+  </p>
+  <h1>捐赠</h1>
+  <p>我现在使用的是腾讯云的服务器，暂不接受捐赠</p>
+</div>
+  <!-- Copyrights Section -->
+  <div class="copyright">&copy;2021- <strong>抽卡模拟器 By Dream_Rain</strong><br>
+  <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">互联网ICP备案：浙ICP备2022003381号</a>
+  </div>
+</div>
+<!-- Main Container Ends -->
+</body>
+<script src="static/js/jquery-3.6.0.min.js"></script>
+<script src="static/js/alert.min.js"></script>
+<script src="static/js/index.js"></script>
+</html>

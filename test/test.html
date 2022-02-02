@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>new webview</title>
+		
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			
+			.main{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+				padding: 10px;
+				width: 100%;
+				overflow: hidden;
+			}
+			.himg{
+				width: 2.5em;
+				height: 2.5em;
+			}
+			.himg img{
+				width: 2.5em;
+				height: 2.5em;
+				border:1px solid #ccc;
+				border-radius: 50%;
+				position:relative;
+				top: -2.5em;
+			}
+			.m-himg{
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 10px;
+				border-bottom: 1px solid #ccc;
+				overflow: hidden;
+			}
+			.himg input{
+				position:relative;
+			    opacity: 0;
+			    display: block;
+			    height: 100%;
+			    width: 100%;
+			    z-index: 9;
+			}
+			.htext{
+				height: 2.5em;
+				line-height: 2.5em;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">编辑个人资料</h1>
+		</header>
+		
+		<div class="mui-content">
+			
+			<div class="main" id="app">
+				
+				<div class="m-himg">
+					更改头像
+					<div class="himg">
+						<input id="fileBtn" type="file" onchange="img('#fileBtn', '#img');" accept="image/*" capture="camera"/>
+						<img src="img/logo.png" id="img"/>
+					</div>
+				</div>
+				<div class="m-himg" onclick="setname()">
+					更改昵称
+					<div class="htext" id="name">
+						MUI
+					</div>
+				</div>
+				<div class="m-himg" onclick="setdata()">
+					编辑个人资料
+					<div class="htext">
+						
+					</div>
+				</div>
+				<div class="m-himg" onclick="setpsword()">
+					重置密码
+					<div class="htext">
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script>
+			(function(mui, doc) {
+				mui.init();
+			}(mui, document));
+			
+		
+			function img(c, d){
+		    let $c = document.querySelector(c),
+		        $d = document.querySelector(d),
+		        file = $c.files[0],
+				data = {
+					headimage :file
+				};
+				if(update(data)){
+					var reader = new FileReader();
+				    reader.readAsDataURL(file);
+				    reader.onload = function(e){
+				        $d.setAttribute("src", e.target.result);
+				    };
+				}
+			};
+ 
+			function setname(){
+				mui.prompt('请输入新昵称：',  function(e) {
+					console.log(e.value);
+					$("#name").html(e.value);
+				})
+			}
+			function setdata(){
+				mui.openWindow({
+				    url: 'setdata.html', 
+				    id:'setdata',
+					});
+				}
+			
+			function setpsword(){
+				mui.openWindow({
+				    url: 'setpsword.html', 
+				    id:'setpsword',
+				 });
+				}
+			
+			
+		</script>
+	</body>
+</html>
