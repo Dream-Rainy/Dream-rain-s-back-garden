@@ -404,6 +404,16 @@ li {
     margin-right: 5px;
 }
 
+.updateinfo{
+    color:#FFFFFF;
+    width:350px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 10px;
+    margin-right: 5px;
+    text-align: center;
+}
+
 .ss-submit{
     position: absolute;
     color:#FFFFFF;

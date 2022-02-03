@@ -17,6 +17,7 @@ var rinfo=new Array()
 var srinfo=new Array()
 var ssrinfo=new Array()
 var spinfo=new Array()
+var flagupwsl1=false
 $(document).ready(function(){
   $.ajax({
     type: "get",
@@ -99,6 +100,7 @@ $(document).ready(function(){
       var zcs=$('#zcs').val()
       var flag25=$("#flag25").is(":checked")
       var flagqtj=$("#flagqtj").is(":checked")
+      flagupwsl1=flagupwsl
       for (var i=1;i<=zcs;i++){
         var x=Math.random();//总概率生成
         if(flagpiece){
@@ -130,8 +132,8 @@ $(document).ready(function(){
           result.push('恭喜抽出当期概率up式神'+glupss)
         }else if(flag25==true&&flagspecialup==false){//双up
           if (x<=(0.0125*2.5)){//SSR/SP式神
-            if (flagupwsl){
-              flagupwsl=false
+            if (flagupwsl&&flagupwsl1){
+              flagupwsl1=false
               var temp1=getArrDifference(ssrinfo,ssrmc)
               var temp2=getArrDifference(spinfo,spmc)
               temp1.concat(temp2)

@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!--网页标题左侧显示-->
+    <link rel="icon" href="static/images/yjs.ico" type="image/x-icon">
+    <!--收藏夹显示图标-->
+    <link rel="shortcut icon" href="static/images/yjs.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!-- Custom Theme files -->
+    <link href="static/css/styleaccount.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- //Custom Theme files -->
+    <!-- font-awesome icons -->
+    <link href="static/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/fileinput.min.css" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>欢迎来到梦雨的后花园控制系统</title>
 </head>
+
 <body>
-    
+    <!--抽卡信息更新-->
+    <div id='updateinfo' class="signin-form updateinfo">
+        <p>更新式神信息</p>
+        <table style="margin-top: 40px;width:300px;border: thick double #32a1ce;height: 100%;text-align: center;margin-left: 25px;" height="100" id="info">
+            <tbody>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr> 
+              <td style="width: 130px;">品阶</td>
+              <td style="width: 120px;"><input style="width: 120px;" type="text" id="pj"></td>
+            </tr>
+            <tr> 
+              <td>式神名称</td>
+              <td><input style="width: 120px;" type="text" id="mc"></td>
+            </tr>
+            <tr>
+              <td>有无SP皮肤</td>
+              <td><input style="width: 120px;" type="text" id="spflag"></td>
+            </tr>
+            <tr>
+              <td>SP皮肤名称</td>
+              <td><input style="width: 120px;" type="text" id="spmc1"></td>
+            </tr>
+            <tr>
+              <td>SP皮肤名称2</td>
+              <td><input style="width: 120px;" type="text" id="spmc2"></td>
+            </tr>
+            <tr>
+              <td>活动名称</td>
+              <td><input style="width: 120px;" type="text" id="activityname"></td>
+            </tr>
+            <tr>
+              <td>概率up</td>
+              <td><input style="width: 120px;" type="text" id="glupss"></td>
+            </tr>
+            <tr>
+              <td>是否含有未收录</td>
+              <td><input style="width: 120px;" type="text" id="wslflag"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>&nbsp;&nbsp;</p>
+        <input style="width: 350px;" type="button" id="upload" class="send" value="提交">
+    </div>
+    <script src="static/js/jquery-3.6.0.min.js"></script>
+    <script src="static/js/alert.min.js"></script>
+    <script src="static/js/admin.js"></script>
 </body>
+
 </html>

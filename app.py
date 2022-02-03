@@ -3,6 +3,7 @@
 #模块导入
 #region
 import json
+from operator import length_hint
 import re
 import os
 import random
@@ -636,8 +637,61 @@ def setu():
 def adminget():
     return render_template('admin.html')
 @app.route('/admin',methods=['POST'])
+@app.route('/admin',methods=['POST'])
 def adminpost():
-    pass
+    global specialname
+    global flagwsl
+    global activityname
+    changeResult=''
+    pj=request.form.get('pj')
+    mc=request.form.get('mc')
+    spflag=request.form.get('spflag')
+    spmc1=request.form.get('spmc1')
+    spmc2=request.form.get('spmc2')
+    activityname=request.form.get('activityname')
+    glupss=request.form.get('glupss')
+    wslflag=request.form.get('wslflag')
+    if wslflag=="无":
+        flagwsl=False
+    elif wslflag=="有":
+        flagwsl=True
+    data={
+        'pj':pj,
+        'mc':mc,
+        'spflag':spflag,
+        'spmc1':spmc1,
+        'spmc2':spmc2,
+        'activityname':activityname,
+        'glupss':glupss,
+        'wslflag':wslflag
+    }
+    print(data)#测试用,可以删
+    a = glupss.split(",")
+    print(a)
+    specialname.clear()
+    specialname=a
+    db=pymysql.connect(host='localhost',user='',password='',database='ssdq')
+    cursor = db.cursor()
+    try:
+        sql = "INSERT INTO ssdq(品阶, 式神名称, 有无SP皮肤, SP皮肤名称, SP皮肤名称2) \
+        VALUES ('%s', '%s',  '%s',  '%s',  '%s')" % \
+        (pj,mc,spflag,spmc1,spmc2)
+        cursor.execute(sql)
+        db.commit()
+        db.close
+    except:
+        changeResult="数据新建失败"
+        db.rollback()
+        db.close
+        results={
+            'success':500,
+            'changeResult':changeResult,
+        }
+        return jsonify(results)
+    results={
+        'success':200
+    }
+    return jsonify(results)
 @app.route('/yaohao',methods=['GET'])
 if __name__ == '__main__':
     app.run(debug=True)
