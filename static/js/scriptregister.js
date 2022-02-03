@@ -40,8 +40,8 @@ function checkInputs() {
 		flag=false
 	} else {
 		setSuccessFor(email);
-		emailValue=emailValue.toLowerCase()
-		email.innerHTML=emailValue;
+		var emailValue1=emailValue.toLowerCase()
+		email.innerHTML=emailValue1;
 		flag=true
 	}
 	

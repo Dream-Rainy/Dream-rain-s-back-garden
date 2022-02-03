@@ -142,7 +142,9 @@ def accountinfoget():
 def registerPage():#获取注册页面
     return render_template('registerPage.html')
 @app.route('/register',methods=['POST'])
+@app.route('/register',methods=['POST'])
 def register():#注册信息处理
+    zcjg=''
     hqyzm=request.form.get('flagyzm')
     id=request.form.get('id')
     password1=request.form.get('pass')
@@ -171,16 +173,21 @@ def register():#注册信息处理
                     }
                     return jsonify(results)
         except:
-            zcjg=("获取数据失败")
+            zcjg="获取数据失败"
+            results={
+                        'success':500,
+                        'zcjg':zcjg
+                    }
+            return jsonify(results)
         for i in range(1,9): #八位验证码
             randomstr = random.choice('QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890')
             verify += randomstr
         # 用于构建邮件头
-        # 发信方的信息：发信邮箱
+        # 发信方的信息：发信邮箱，腾讯免费企业邮授权码
         from_addr = ''
         password = ''
         # 发信服务器
-        smtp_server = ''
+        smtp_server = 'smtp.exmail.qq.com'
         """标题"""
         head="邮箱验证码"
         """正文"""
@@ -252,6 +259,11 @@ def register():#注册信息处理
             return jsonify(results)
         if flagcz==False:
             zcjg='请先获取验证码！'
+            results={
+                        'success':500,
+                        'zcjg':zcjg
+                    }
+            return jsonify(results)
         if int(round(time.time()))-int(millis)<=300 and sycs!=0:
             yzmsr=request.form.get('yzm')
             if len(yzmsr)!=8:
@@ -267,15 +279,27 @@ def register():#注册信息处理
                     'success':200,
                     'zcjg':zcjg,
                 }
-                paths=os.path.join(os.path.abspath('.'),'static','account',id)
-                os.mkdir(paths)
-                files = os.path.join(paths,"AccountInfo.json")
-                f=open(files,'w')
-                f.close()
-                return jsonify(results)
+                try:
+                    paths=os.path.join(os.path.abspath('.'),'static','account',id)
+                    os.mkdir(paths)
+                    files = os.path.join(paths,"AccountInfo.json")
+                    f=open(files,'w')
+                    f.close()
+                except:
+                    zcjg+="新建文件出错"
+                    results={
+                        'success':200,
+                        'zcjg':zcjg
+                    }
+                    return jsonify(results)
             else:
                 if int(round(time.time()))-int(millis)>300:
                     zcjg='该验证码已经失效，请尝试重新注册！'
+                    results={
+                        'success':200,
+                        'zcjg':zcjg
+                    }
+                    return jsonify(results)
                 else:
                     sycs=sycs-1
                     zcjg='验证失败！请重试！剩余次数：'+str(sycs)+"次"

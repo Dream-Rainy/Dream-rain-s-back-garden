@@ -134,6 +134,7 @@ $(document).ready(function(){
           if (x<=(0.0125*2.5)){//SSR/SP式神
             if (flagupwsl&&flagupwsl1){
               flagupwsl1=false
+              ssupFrequency++
               var temp1=getArrDifference(ssrinfo,ssrmc)
               var temp2=getArrDifference(spinfo,spmc)
               temp1.concat(temp2)
