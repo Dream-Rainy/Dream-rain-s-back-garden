@@ -87,7 +87,7 @@ def DrawCardData():#抽卡数据获取
                     flagupssr=True
                 else:
                     flagupsp=True
-    if flagupssr==True or flagpiece==True or flagupspecial==True:
+    if flagupssr==True:
         flagupsp=False
     data={
     'flagpiece':flagpiece,

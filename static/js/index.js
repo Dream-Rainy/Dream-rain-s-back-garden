@@ -15,7 +15,7 @@ var temp='';
 var glupss='';
 var ssrinfo=[];
 var spinfo=[];
-var flagupwsl1=false;
+var flagspecialup=false;
 $(document).ready(function(){
   $.load();
   $.ajax({
@@ -33,8 +33,6 @@ $(document).ready(function(){
         flagupspecial=true;
       };
       flagpiece=data.flagpiece;
-      flagupwsl=data.flagwsl;
-      console.log(flagupwsl);
       rmc=data.rmc;
       console.log(rmc);
       specialSkinmc=data.specialSkinmc;
@@ -45,6 +43,9 @@ $(document).ready(function(){
       console.log(srmc);
       ssrmc=data.ssrmc;
       console.log(ssrmc);
+      if ($('input[name="upss"]:checked').val()=="无"){
+        flagspecialup=true;
+      }
       //获取未收录信息
       var ssrinfotemp=getCookie("ssrinfo");
       var spinfotemp=getCookie("spinfo");
@@ -55,9 +56,10 @@ $(document).ready(function(){
       if (flagssinfo!='True'){
         $.alert("请先设置式神信息再使用抽卡模拟功能！（本信息15天重置一次）",function(){
           window.location.href="/#ssinfo"
-          setTimeout(() => console.log("Wait......"), 2000)
-          $.loaded();
-          $.tips('获取信息完成');
+          sleep(1000).then(()=>{
+            $.loaded();
+            $.tips('获取信息完成');
+          });
         })
       }else{
         for (let i in ssrinfotemp) {
@@ -106,7 +108,6 @@ $(document).ready(function(){
       var dqssupFrequency=0;
       var spFrequency=0;
       var ssrFrequency=0;
-      var flagspecialup=false;
       var zcs=$('#zcs').val();
       var flag25=$("#flag25").is(":checked");
       var flagqtj=$("#flagqtj").is(":checked");
