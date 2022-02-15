@@ -48,27 +48,37 @@ $(document).ready(function(){
       //获取未收录信息
       var ssrinfotemp=getCookie("ssrinfo");
       var spinfotemp=getCookie("spinfo");
+      var flagssinfo=getCookie("flagssinfo")
       var x=0
       console.log(ssrinfotemp);
       console.log(spinfotemp);
-      for (let i in ssrinfotemp) {
-        if (ssrinfotemp[i]=="1"){
-          ssrinfo[x]=ssrmc[x]
-          x++
+      if (flagssinfo!='True'){
+        $.alert("请先设置式神信息再使用抽卡模拟功能！（本信息15天重置一次）",function(){
+          window.location.href="/#ssinfo"
+          setTimeout(() => console.log("Wait......"), 2000)
+          $.loaded();
+          $.tips('获取信息完成');
+        })
+      }else{
+        for (let i in ssrinfotemp) {
+          if (ssrinfotemp[i]=="1"){
+            ssrinfo[x]=ssrmc[x]
+            x++
+          };
         };
-      };
-      x=0
-      for (let i in spinfotemp) {
-        if (spinfotemp[i]=="1"){
-          spinfo[x]=spmc[x]
-          x++
+        x=0
+        for (let i in spinfotemp) {
+          if (spinfotemp[i]=="1"){
+            spinfo[x]=spmc[x]
+            x++
+          };
         };
-      };
-      console.log(spinfo);
-      console.log(ssrinfo);
-      setTimeout(() => console.log("Wait......"), 2000)
-      $.loaded();
-      $.tips('获取信息完成');
+        console.log(spinfo);
+        console.log(ssrinfo);
+        setTimeout(() => console.log("Wait......"), 2000)
+        $.loaded();
+        $.tips('获取信息完成');
+      }
     },
     error: function (err) {
       setTimeout(() => console.log("Wait......"), 2000)
@@ -518,7 +528,11 @@ document.getElementById("ssmessagesubmit").addEventListener('click', e => {
 console.log(ssr);
 setCookie("ssrinfo",ssr,15);
 setCookie("spinfo",sp,15);
-$.alert("提交成功");
+setCookie("flagssinfo","True",15);
+$.alert("提交成功，即将刷新页面");
+sleep(1000).then(()=>{
+  window.location.replace("/");
+});
 })
 function setCookie(cname,cvalue,exdays){//设置cookie
   var d = new Date();
