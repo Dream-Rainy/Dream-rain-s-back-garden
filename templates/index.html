@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-US">
 <head>
 <meta charset="utf-8">
@@ -12,15 +12,8 @@
 <!--收藏夹显示图标-->
 <link rel="shortcut icon" href="static/images/yjs.ico" type="image/x-icon">
 <link href="static/css/singlePageTemplate.css" rel="stylesheet" type="text/css">
-<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
 <script>var __adobewebfontsappname__="dreamweaver"</script>
 <script src="static/js/source-sans-pro_n2_default.js" type="text/javascript"></script>
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-      <script src="static/js/html5shiv.min.js"></script>
-      <script src="static/js/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body style="width:90%; margin:0 auto;" οnlοad="time()">
 <!-- Main Container -->
@@ -33,10 +26,10 @@
       <ul>
         <li><a href="#hero">主页</a></li>
 		    <li><a href="#ckmnq">抽卡模拟器</a></li>
+        <li><a href="#ssinfo">式神信息填写</a></li>
         <li><a href="#shop">活动商店统计</a></li>
 		    <li><a href="#dyjc">对弈竞猜模拟</a></li>
         <li><a href="#about">关于</a></li>
-        <li><a id='login' href="{{ lj }}">{{ dl }}</a></li>
       </ul>
     </nav>
   </header>
@@ -46,20 +39,19 @@
 			section {background-image:url("static/images/hyj.jpg");background-repeat: no-repeat;background-position: center;}
 		</style>
   <div class="title">
-    <h2 align="center"><font size="6" color="white">欢迎来到梦雨的后花园</font></h2>
+    <p class="h2font" align="center"><font size="6" color="white">欢迎来到梦雨的后花园</font></p>
     <p align="center"><font size="5" color="white">感谢使用梦雨开发的各种小工具</font></p>
   </div>
   </section>
   <!-- ckmnq Section -->
-<div>
-  <a name="ckmnq"></a>
+  <div id="ckmnq">
   <hr />
   <p>
     &nbsp;
     &nbsp;
   </p>
-  <h1>抽卡模拟器</h1>
-  <h2>文字版：</h2>
+  <p class="bigfont">抽卡模拟器</p>
+  <p class="h2font">文字版：</p>
 	<table width="100%" height="300" border="1" align="center" id='bg'>
   <tbody>
     <tr>
@@ -98,23 +90,51 @@
     </tr>
   </tbody>
 </table>
-<h2>还原版：仍在开发中，准备基于unity……</h2>
 </div>
-  <!-- shop Section -->
-<div>
-  <a name="shop"></a>
+<!-- ssinfo Section -->
+<div id="ssinfo">
   <hr />
   <p>
     &nbsp;
     &nbsp;
   </p>
-  <h1>当期商店查看</h1>
-  <h2>由于学业关系，更新可能不及时或者直接不更新</h2>
-  <h2>如果excel表格一片空白请尝试移动</h2> 
-  <h2>如果无法使用请下载使用</h2>
-  <h2><a class="tiaozhuan" href="https://dl.ckmnq.cn">点击前往下载页</a></h2>
-  <h2>请注意时效！</h2>
-  <h2>时间：<span id="time"></span></h2>
+  <div>
+    <span class="bigfont">式神信息提交</span>
+    <div>
+      <span class="ssmc">SSR式神</span>
+      <div>
+        <ul class="ssinfoul">
+        {% for ssr in ssrmc %}
+        <li><input name="ssr" type='checkbox' value="{{ssr}}" id='{{ssr}}' checked>{{ssr}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <span class="ssmc">SP式神</span>
+      <div>
+        <ul class="ssinfoul">
+        {% for sp in spmc %}
+        <li><input name="sp" type='checkbox' value="{{sp}}" id='{{sp}}' checked>{{sp}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <input class="button" type="button" id="ssmessagesubmit" value="提交式神信息">
+    </div>
+  </div>
+</div>
+  <!-- shop Section -->
+  <div id="shop">
+  <hr />
+  <p>
+    &nbsp;
+    &nbsp;
+  </p>
+  <p class="bigfont">当期商店查看</p>
+  <p class="h2font">由于学业关系，更新可能不及时或者直接不更新</p>
+  <p class="h2font">如果excel表格一片空白请尝试移动</p> 
+  <p class="h2font">如果无法使用请下载使用</p>
+  <p class="h2font"><a class="tiaozhuan" href="https://dl.ckmnq.cn">点击前往下载页</a></p>
+  <p class="h2font">请注意时效！</p>
+  <p class="h2font">时间：<span id="time"></span></p>
   <div class="excel">
     <button class="button" id="button1">点我展开/隐藏在线表格</button>
   </div>
@@ -122,29 +142,28 @@
     <iframe src='https://view.officeapps.live.com/op/view.aspx?src=https://ckmnq.cn/static/excel/搬空商店统计（因幡辉夜姬活动）.xlsx' width='100%' height='100%' frameborder='1'>
 			</iframe>
   </div>
-</div>
+  </div>
 <!-- dyjcmn Section -->
-<div>
-  <a name="dyjc"></a>
+  <div id="dyjc">
   <hr />
   <p>
     &nbsp;
     &nbsp;
   </p>
-  <h1>对弈竞猜模拟</h1>
-  <h1 align="center">对阴阳师的自动战斗进行还原</h1>
-  <h1 align="center">提供较为精确的对弈竞猜预测功能</h1>
-  <h1 align="center">还在开发中……</h1>
-</div>
+  <p class="bigfont">对弈竞猜模拟</p>
+  <p class="bigfont">对阴阳师的自动战斗进行还原</p>
+  <p class="bigfont">提供较为精确的对弈竞猜预测功能</p>
+  <p class="bigfont">还在开发中……</p>
+  </div>
+</section>
   <!-- About Section -->
-<div>
-  <a name="about"></a>
+  <div id="about">
   <hr />
   <p>
     &nbsp;
     &nbsp;
   </p>
-  <h1>关于</h1>
+  <p class="bigfont">关于</p>
   <p>欢迎你来到这里，使用这个由高三低技术力文科生做的网页</p>
   <p>虽说是文科生，但是语文水平也不是很高，还请多多海涵</p>
   <p>既然都翻到这里了，我还是希望你可以看完这一段<s>(虽然说现在东西不多翻到这里还是挺容易的)</s></p>
@@ -161,23 +180,21 @@
   <p>写于2022/2/2 13:30</p>
 </div>
   <!-- Donate Section -->
-<div>
+  <div id="donate">
   <hr />
   <p>
     &nbsp;
     &nbsp;
   </p>
-  <h1>捐赠</h1>
-  <p>我现在使用的是腾讯云的服务器，暂不接受捐赠</p>
-</div>
-  <!-- Copyrights Section -->
-  <div class="copyright">&copy;2021- <strong>抽卡模拟器 By Dream_Rain</strong><br>
-  <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">互联网ICP备案：浙ICP备2022003381号</a>
   </div>
-</div>
+  <!-- Copyrights Section -->
+  <div class="copyright">&copy;2021-2022 <strong>抽卡模拟器 By Dream_Rain</strong><br>
+  <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">互联网ICP备案：浙ICP备2022003381号</a>
+	<img style="height: 18px;" src="static/images/beian.png"><a class="icp" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33078202001838">浙公网安备 33078202001838号</a>
+  </div>
 <!-- Main Container Ends -->
-</body>
 <script src="static/js/jquery-3.6.0.min.js"></script>
 <script src="static/js/alert.min.js"></script>
 <script src="static/js/index.js"></script>
+</body>
 </html>
